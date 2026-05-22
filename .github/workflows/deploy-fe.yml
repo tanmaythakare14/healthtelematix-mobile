@@ -3,7 +3,7 @@ name: Deploy Frontend
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build frontend
-        run: npm run build -- --base=/health-telematix/clinic/
+        run: npm run build -- --base=/health-telematix/mobile/
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
@@ -42,11 +42,11 @@ jobs:
 
       - name: Deploy static assets to S3
         run: |
-          aws s3 sync dist s3://${S3_BUCKET}/health-telematix/clinic/ --delete --exclude "index.html"
+          aws s3 sync dist s3://${S3_BUCKET}/health-telematix/mobile/ --delete --exclude "index.html"
 
       - name: Sync index.html with no-cache headers
         run: |
-          aws s3 sync dist s3://${S3_BUCKET}/health-telematix/clinic/ \
+          aws s3 sync dist s3://${S3_BUCKET}/health-telematix/moblie/ \
             --exclude "*" \
             --include "index.html" \
             --cache-control "no-cache, no-store, must-revalidate" \
