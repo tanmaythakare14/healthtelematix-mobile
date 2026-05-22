@@ -35,9 +35,11 @@ import { Settings, SETTINGS_PATH } from '@/modules/settings';
 import { Dashboard, DASHBOARD_PATH } from '@/modules/dashboard';
 import { BillingPage, BillingDetailPage, BILLING_BASE_PATH, BILLING_DETAIL_PATH } from '@/modules/billing';
 import { ROUTER_BASENAME } from '@/config/environment';
+import { IPhoneShowcase } from '@/components/preview/IPhoneShowcase';
 
 export const router = createBrowserRouter(
   [
+    { path: '/mobile-preview', element: <IPhoneShowcase /> },
     {
       element: <RootLayout />,
       children: [
