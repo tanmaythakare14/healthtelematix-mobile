@@ -28,4 +28,4 @@ export const config = {
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL as string;
 
-export const ROUTER_BASENAME = '/health-telematix/clinic';
+export const ROUTER_BASENAME = '/health-telematix/mobile';

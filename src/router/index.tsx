@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import { RootLayout } from './RootLayout';
 import {
   SignIn,
@@ -40,11 +40,11 @@ import { IPhoneShowcase } from '@/components/preview/IPhoneShowcase';
 
 export const router = createBrowserRouter(
   [
+    { path: '/', element: <IPhoneShowcase /> },
     { path: '/mobile-preview', element: <IPhoneShowcase /> },
     {
       element: <RootLayout />,
       children: [
-        { path: '/', element: <Navigate to={LOGIN_PATH} replace /> },
         { path: SIGN_IN_PATH, element: <SignIn /> },
         { path: LOGIN_PATH, element: <Login /> },
         { path: FORGOT_PASSWORD_PATH, element: <ForgotPassword /> },
