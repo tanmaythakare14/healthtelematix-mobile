@@ -4,7 +4,7 @@ import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/health-telematix/mobile/',
+  base: '/health-telematix/clinic/',
   plugins: [react()],
   resolve: {
     alias: {
