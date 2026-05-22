@@ -23,6 +23,7 @@ import {
   Scale,
   Zap,
   LogOut,
+  SlidersHorizontal,
 } from 'lucide-react';
 
 // ─── brand ────────────────────────────────────────────────────────────────────
@@ -223,11 +224,6 @@ function SignInScreen({ onContinue }: { onContinue: () => void }): React.JSX.Ele
           </div>
         </div>
 
-        {/* forgot / help row */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
-          <span style={{ fontSize: '12px', fontWeight: 600, color: P }}>Having trouble?</span>
-        </div>
-
         {/* CTA */}
         <button
           onClick={handleContinue}
@@ -252,15 +248,6 @@ function SignInScreen({ onContinue }: { onContinue: () => void }): React.JSX.Ele
           <ArrowRight size={15} color="#fff" strokeWidth={2.5} />
         </button>
 
-        {/* OR divider */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-          <div style={{ flex: 1, height: '1px', background: '#EBEBEB' }} />
-          <span style={{ fontSize: '11px', fontWeight: 600, color: '#C0C0C8', letterSpacing: '0.5px' }}>
-            OR CONTINUE WITH
-          </span>
-          <div style={{ flex: 1, height: '1px', background: '#EBEBEB' }} />
-        </div>
-
         {/* footer */}
         <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
           <Shield size={9} color="#C7C7CC" />
@@ -273,16 +260,16 @@ function SignInScreen({ onContinue }: { onContinue: () => void }): React.JSX.Ele
 
 // ─── otp screen ───────────────────────────────────────────────────────────────
 
-const OTP_CODE = ['4', '2', '7', '8', '3', '1'];
+const OTP_CODE = ['4', '2', '7', '8'];
 
 function OtpScreen({ onVerify, onBack }: { onVerify: () => void; onBack: () => void }): React.JSX.Element {
-  const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
+  const [digits, setDigits] = useState<string[]>(['', '', '', '']);
   const [countdown, setCountdown] = useState(30);
   const [verifying, setVerifying] = useState(false);
   const [verified, setVerified] = useState(false);
 
   const filled = digits.filter(Boolean).length;
-  const allFilled = filled === 6;
+  const allFilled = filled === 4;
 
   useEffect(() => {
     const timers = OTP_CODE.map((d, i) =>
@@ -397,7 +384,7 @@ function OtpScreen({ onVerify, onBack }: { onVerify: () => void; onBack: () => v
           Verify your number
         </h1>
         <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)', margin: 0 }}>
-          We sent a 6-digit code to your phone
+          A 4-digit verification code was sent via SMS to your registered mobile number
         </p>
       </div>
 
@@ -416,12 +403,26 @@ function OtpScreen({ onVerify, onBack }: { onVerify: () => void; onBack: () => v
       >
         {/* sent-to label */}
         <div style={{ marginBottom: '24px' }}>
-          <p style={{ fontSize: '13px', color: '#8E8E93', margin: '0 0 2px' }}>Code sent to</p>
-          <p style={{ fontSize: '15px', fontWeight: 700, color: '#1C1C1E', margin: 0 }}>+1 (555) 234‑5678</p>
+          <p
+            style={{
+              fontSize: '11px',
+              fontWeight: 600,
+              color: '#8E8E93',
+              letterSpacing: '0.4px',
+              textTransform: 'uppercase',
+              margin: '0 0 4px',
+            }}
+          >
+            Verification code delivered to
+          </p>
+          <p style={{ fontSize: '15px', fontWeight: 700, color: '#1C1C1E', margin: 0 }}>
+            +1 (555) 234‑5678 &nbsp;
+            <span style={{ fontSize: '12px', fontWeight: 500, color: '#8E8E93' }}>· SMS · United States</span>
+          </p>
         </div>
 
         {/* OTP boxes */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
           {digits.map((d, i) => {
             const isActive = i === filled && !allFilled;
             const isFilled = d !== '';
@@ -430,21 +431,22 @@ function OtpScreen({ onVerify, onBack }: { onVerify: () => void; onBack: () => v
                 key={i}
                 style={{
                   flex: 1,
-                  height: '54px',
+                  height: '64px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: '14px',
-                  background: isFilled ? `${P}10` : '#F7F8FA',
-                  border: `2px solid ${isActive ? P : isFilled ? `${P}40` : '#EBEBEB'}`,
+                  background: '#F2F4F7',
+                  border: `2px solid ${isActive ? P : isFilled ? `${P}30` : 'transparent'}`,
+                  boxShadow: isActive ? `0 0 0 3px ${P}15` : 'none',
                   transition: 'all 0.18s cubic-bezier(0.34,1.56,0.64,1)',
-                  transform: isFilled ? 'scale(1.03)' : 'scale(1)',
+                  transform: isFilled ? 'scale(1.02)' : 'scale(1)',
                 }}
               >
                 {isFilled ? (
                   <span
                     style={{
-                      fontSize: '22px',
+                      fontSize: '26px',
                       fontWeight: 800,
                       color: P,
                       animation: 'htx-pop 0.25s cubic-bezier(0.34,1.56,0.64,1)',
@@ -456,7 +458,7 @@ function OtpScreen({ onVerify, onBack }: { onVerify: () => void; onBack: () => v
                   <div
                     style={{
                       width: '2px',
-                      height: '22px',
+                      height: '26px',
                       background: P,
                       borderRadius: '1px',
                       animation: 'htx-blink 1s step-end infinite',
@@ -496,11 +498,7 @@ function OtpScreen({ onVerify, onBack }: { onVerify: () => void; onBack: () => v
             justifyContent: 'center',
             gap: '8px',
             borderRadius: '13px',
-            background: allFilled
-              ? verified
-                ? 'linear-gradient(135deg,#34C759,#1E9E3E)'
-                : 'linear-gradient(135deg,#1A3A5C,#1A2D45)'
-              : '#F2F2F7',
+            background: allFilled ? 'linear-gradient(135deg,#1A3A5C,#1A2D45)' : '#F2F2F7',
             boxShadow: allFilled ? '0 8px 20px rgba(26,45,69,0.28)' : 'none',
             border: 'none',
             cursor: allFilled ? 'pointer' : 'default',
@@ -656,6 +654,7 @@ const CP_PLANS = [
     progress: 68,
     date: 'Updated May 18, 2026',
     assignedBy: 'Dr. Marcus Reid',
+    device: 'Blood Pressure Cuff',
   },
   {
     id: '2',
@@ -671,6 +670,7 @@ const CP_PLANS = [
     progress: 45,
     date: 'Updated May 20, 2026',
     assignedBy: 'Dr. Sarah Kim',
+    device: 'CGM — Dexcom G7',
   },
   {
     id: '3',
@@ -686,6 +686,7 @@ const CP_PLANS = [
     progress: 32,
     date: 'Updated May 21, 2026',
     assignedBy: 'Dr. Michael Torres',
+    device: 'Weight Scale',
   },
   {
     id: '4',
@@ -701,6 +702,7 @@ const CP_PLANS = [
     progress: 100,
     date: 'Completed Jan 10, 2026',
     assignedBy: 'Dr. Marcus Reid',
+    device: 'Weight Scale',
   },
   {
     id: '5',
@@ -716,6 +718,7 @@ const CP_PLANS = [
     progress: 100,
     date: 'Completed Apr 10, 2025',
     assignedBy: 'Dr. Sarah Kim',
+    device: 'Blood Pressure Cuff',
   },
 ] as const;
 
@@ -726,6 +729,7 @@ const CP_DETAIL: Record<
   {
     fullDescription: string;
     touchpoint: string;
+    device: string;
     startDate: string;
     endDate: string;
     goals: { name: string; current: string; target: string; progress: number; condition: string; condColor: string }[];
@@ -750,12 +754,14 @@ const CP_DETAIL: Record<
       linkedPlan: string;
     }[];
     program: { type: string; dateEnrolled: string; status: 'Active' | 'Inactive'; progColor: string; progBg: string };
+    clinicalNotes: string;
   }
 > = {
   '1': {
     fullDescription:
       'A comprehensive care plan addressing Hypertension through remote patient monitoring, medication adherence, lifestyle interventions, and regular clinical touchpoints via Blood Pressure Cuff device.',
     touchpoint: 'Bi-weekly',
+    device: 'Blood Pressure Cuff',
     startDate: 'Jan 10, 2024',
     endDate: 'Jan 10, 2025',
     goals: [
@@ -829,11 +835,14 @@ const CP_DETAIL: Record<
       },
     ],
     program: { type: 'RPM', dateEnrolled: 'Jan 10, 2024', status: 'Active', progColor: '#007AFF', progBg: '#007AFF12' },
+    clinicalNotes:
+      'Patient shows strong motivation and good family support — reinforce positive behavior at every clinical touchpoint. RPM compliance is strongest for BP Cuff morning readings (82%); medication self-report (78%) and resting HR target need continued improvement.',
   },
   '2': {
     fullDescription:
       'Continuous glucose monitoring plan using CGM device with daily fasting and post-meal logging, weekly nurse review of CGM trends, and monthly HbA1c assessments.',
     touchpoint: 'Weekly',
+    device: 'CGM — Dexcom G7',
     startDate: 'Feb 05, 2024',
     endDate: 'Feb 05, 2025',
     goals: [
@@ -905,11 +914,14 @@ const CP_DETAIL: Record<
       progColor: '#AF52DE',
       progBg: '#AF52DE12',
     },
+    clinicalNotes:
+      'Patient demonstrates good CGM wear-time but fasting readings remain above target range. Encourage consistent sensor placement and review carbohydrate intake log at next touchpoint. Metformin tolerance confirmed; no GI complaints reported.',
   },
   '3': {
     fullDescription:
       'Heart failure management through daily smart-scale weight monitoring, sodium and fluid intake restriction, and automated escalation protocol if weight gain exceeds 2 lbs per day.',
     touchpoint: 'Bi-weekly',
+    device: 'Weight Scale',
     startDate: 'Feb 01, 2024',
     endDate: 'Feb 01, 2025',
     goals: [
@@ -963,11 +975,14 @@ const CP_DETAIL: Record<
       },
     ],
     program: { type: 'RPM', dateEnrolled: 'Feb 01, 2024', status: 'Active', progColor: '#007AFF', progBg: '#007AFF12' },
+    clinicalNotes:
+      'Weight trending down consistently over past 6 weeks — patient is highly adherent to sodium restriction. Monitor for fluid retention signs at next bi-weekly check. Consider reducing Furosemide if weight stabilises below 185 lbs for 2+ consecutive weeks.',
   },
   '4': {
     fullDescription:
       'Completed 12-month structured weight reduction program. Patient achieved 5.3% body weight reduction through dietary coaching and supervised aerobic exercise program.',
     touchpoint: 'Monthly',
+    device: 'Weight Scale',
     startDate: 'Jan 10, 2025',
     endDate: 'Jan 10, 2026',
     goals: [
@@ -1019,11 +1034,14 @@ const CP_DETAIL: Record<
       progColor: '#8E8E93',
       progBg: '#8E8E9312',
     },
+    clinicalNotes:
+      'Patient successfully completed 12-month weight reduction program, achieving 5.3% body weight loss. All monitoring activities marked complete. Recommend transitioning to maintenance dietary plan and scheduling a 3-month follow-up to assess weight stability.',
   },
   '5': {
     fullDescription:
       'Completed first-phase plan targeting systolic BP reduction below 140 mmHg through Lisinopril titration and sodium-restricted dietary guidance. Goal achieved at 3-month review.',
     touchpoint: 'Weekly',
+    device: 'Blood Pressure Cuff',
     startDate: 'Jan 10, 2024',
     endDate: 'Apr 10, 2024',
     goals: [
@@ -1075,6 +1093,8 @@ const CP_DETAIL: Record<
       progColor: '#8E8E93',
       progBg: '#8E8E9312',
     },
+    clinicalNotes:
+      'Goal achieved at the 3-month review checkpoint. Systolic BP stabilised below 140 mmHg following Lisinopril titration from 5 mg to 10 mg. Patient adherence to low-sodium diet was commendable. Plan closed; patient transitioned to the ongoing Hypertension Management Care Plan.',
   },
 };
 
@@ -1173,6 +1193,7 @@ function CarePlanDetailScreen({ planId, onBack }: { planId: string; onBack: () =
           </div>
           <div className="px-4 pb-1">
             <FieldRow label="Touchpoint Frequency" value={detail.touchpoint} />
+            <FieldRow label="Linked Device" value={detail.device} />
             <FieldRow label="Start Date" value={detail.startDate} />
             <FieldRow label="End Date" value={detail.endDate} />
           </div>
@@ -1375,26 +1396,28 @@ function CarePlanDetailScreen({ planId, onBack }: { planId: string; onBack: () =
                             </p>
                           </div>
                         </div>
-                        <span
-                          style={{
-                            fontSize: '9px',
-                            fontWeight: 700,
-                            color: medication.status === 'Active' ? '#34C759' : '#8E8E93',
-                            background: medication.status === 'Active' ? '#34C75912' : '#F2F2F7',
-                            borderRadius: '999px',
-                            padding: '2px 7px',
-                            flexShrink: 0,
-                            marginLeft: '8px',
-                          }}
-                        >
-                          {medication.status}
-                        </span>
                       </div>
                     </div>
                   )}
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* ── Clinical Notes ── */}
+        <div>
+          <SectionLabel>Clinical Notes</SectionLabel>
+          <div
+            style={{
+              background: '#fff',
+              borderRadius: '16px',
+              border: '1px solid #E5E5EA',
+              padding: '12px 14px',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+            }}
+          >
+            <p style={{ fontSize: '12px', color: '#3C3C3E', lineHeight: 1.65 }}>{detail.clinicalNotes}</p>
           </div>
         </div>
 
@@ -1424,22 +1447,9 @@ function CarePlanDetailScreen({ planId, onBack }: { planId: string; onBack: () =
                   {detail.program.type}
                 </p>
               </div>
-              <span
-                style={{
-                  fontSize: '9.5px',
-                  fontWeight: 600,
-                  color: detail.program.status === 'Active' ? '#34C759' : '#8E8E93',
-                  background: detail.program.status === 'Active' ? '#34C75912' : '#F2F2F7',
-                  borderRadius: '999px',
-                  padding: '3px 8px',
-                }}
-              >
-                {detail.program.status}
-              </span>
             </div>
             <div className="px-4 pb-1">
               <FieldRow label="Date of Enrollment" value={detail.program.dateEnrolled} />
-              <FieldRow label="Program Status" value={detail.program.status} />
             </div>
           </div>
         </div>
@@ -1482,7 +1492,7 @@ function CarePlanScreen(): React.JSX.Element {
               <span
                 style={{ fontSize: '12px', fontWeight: cpTab === t ? 700 : 500, color: cpTab === t ? P : '#8E8E93' }}
               >
-                {t === 'active' ? 'Current' : 'Past'}
+                {t === 'active' ? 'Active' : 'Completed'}
               </span>
               <span
                 style={{
@@ -1564,6 +1574,10 @@ function CarePlanScreen(): React.JSX.Element {
                   >
                     {plan.program}
                   </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '6px' }}>
+                  <Bluetooth size={10} style={{ color: '#8E8E93', flexShrink: 0 }} />
+                  <span style={{ fontSize: '10.5px', color: '#8E8E93', fontWeight: 500 }}>{plan.device}</span>
                 </div>
               </div>
               <ArrowRight size={14} style={{ color: '#C7C7CC', flexShrink: 0, marginTop: '2px' }} />
@@ -1688,7 +1702,7 @@ const MED_DATA = [
     mealTime: 'After Meal',
     startDate: 'Mar 01, 2024',
     endDate: 'Ongoing',
-    addedBy: 'Doctor',
+    addedBy: 'Myself',
     linkedPlan: null,
     clinicalInstruction: 'Take at the same time each evening. Report any unexplained muscle pain.',
     prescribedBy: 'Dr. Sarah Kim',
@@ -1718,6 +1732,7 @@ const MED_DATA = [
 const ADDED_BY_STYLE: Record<string, { color: string; bg: string; label: string }> = {
   EHR: { color: '#007AFF', bg: '#007AFF12', label: 'EHR' },
   Doctor: { color: '#34C759', bg: '#34C75912', label: 'Doctor' },
+  Myself: { color: '#AF52DE', bg: '#AF52DE12', label: 'Myself' },
   Patient: { color: '#AF52DE', bg: '#AF52DE12', label: 'Patient' },
 };
 
@@ -1832,13 +1847,14 @@ function MedDetailScreen({ medId, onBack }: { medId: string; onBack: () => void 
                   background: `${P}10`,
                   borderRadius: '999px',
                   padding: '3px 9px',
-                  maxWidth: '180px',
+                  maxWidth: '120px',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
+                  display: 'inline-block',
                 }}
               >
-                ⬡ Care Plan
+                {med.linkedPlan.replace(/ Care Plan$/i, '').replace(/ Plan$/i, '')}
               </span>
             )}
             <span
@@ -1981,10 +1997,23 @@ function MedDetailScreen({ medId, onBack }: { medId: string; onBack: () => void 
   );
 }
 
-function MedicationScreen(): React.JSX.Element {
+function MedicationScreen({
+  filterAddedBy,
+  filterCondition,
+  onOpenFilter,
+}: {
+  filterAddedBy: string;
+  filterCondition: string;
+  onOpenFilter: () => void;
+}): React.JSX.Element {
   const [medTab, setMedTab] = useState<'active' | 'inactive'>('active');
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const visible = MED_DATA.filter((m) => m.status === medTab);
+
+  const hasActiveFilter = filterAddedBy !== 'All' || filterCondition !== 'All';
+
+  const visible = MED_DATA.filter((m) => m.status === medTab)
+    .filter((m) => filterAddedBy === 'All' || m.addedBy === filterAddedBy)
+    .filter((m) => filterCondition === 'All' || m.condition === filterCondition);
 
   if (selectedId) {
     return <MedDetailScreen medId={selectedId} onBack={() => setSelectedId(null)} />;
@@ -1996,21 +2025,56 @@ function MedicationScreen(): React.JSX.Element {
       <div className="bg-white px-5 pt-4 pb-3">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
           <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#1C1C1E', letterSpacing: '-0.4px' }}>Medications</h1>
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '5px',
-              background: P,
-              borderRadius: '20px',
-              padding: '6px 12px',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            <Plus size={13} style={{ color: '#fff' }} strokeWidth={2.5} />
-            <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff' }}>Add</span>
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {/* filter icon button */}
+            <button
+              onClick={onOpenFilter}
+              style={{
+                position: 'relative',
+                width: '34px',
+                height: '34px',
+                borderRadius: '10px',
+                background: hasActiveFilter ? `${P}12` : '#F2F2F7',
+                border: hasActiveFilter ? `1.5px solid ${P}30` : '1.5px solid transparent',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              <SlidersHorizontal size={15} style={{ color: hasActiveFilter ? P : '#8E8E93' }} />
+              {hasActiveFilter && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: '4px',
+                    right: '4px',
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    background: P,
+                    border: '1.5px solid #fff',
+                  }}
+                />
+              )}
+            </button>
+            {/* add button */}
+            <button
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                background: P,
+                borderRadius: '20px',
+                padding: '6px 12px',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              <Plus size={13} style={{ color: '#fff' }} strokeWidth={2.5} />
+              <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff' }}>Add</span>
+            </button>
+          </div>
         </div>
         <div
           style={{
@@ -2126,20 +2190,6 @@ function MedicationScreen(): React.JSX.Element {
                   >
                     {med.condition}
                   </span>
-                  {med.linkedPlan && (
-                    <span
-                      style={{
-                        fontSize: '9.5px',
-                        fontWeight: 600,
-                        color: P,
-                        background: `${P}10`,
-                        borderRadius: '999px',
-                        padding: '2px 7px',
-                      }}
-                    >
-                      Care Plan
-                    </span>
-                  )}
                 </div>
               </div>
               {/* info grid */}
@@ -2182,10 +2232,10 @@ function MedicationScreen(): React.JSX.Element {
                   >
                     MEAL TIME
                   </p>
-                  <p style={{ fontSize: '11px', fontWeight: 600, color: '#1C1C1E' }}>{med.mealTime}</p>
+                  <p style={{ fontSize: '11px', fontWeight: 600, color: '#1C1C1E', margin: 0 }}>{med.mealTime}</p>
                 </div>
                 {/* col 2: ADDED BY — under START DATE */}
-                <div style={{ padding: '8px 12px', borderRight: '1px solid #F2F2F7' }}>
+                <div style={{ padding: '8px 12px' }}>
                   <p
                     style={{
                       fontSize: '8.5px',
@@ -2198,13 +2248,67 @@ function MedicationScreen(): React.JSX.Element {
                   >
                     ADDED BY
                   </p>
-                  <span style={{ fontSize: '11px', fontWeight: 600, color: addedStyle.color }}>{addedStyle.label}</span>
+                  <p style={{ fontSize: '11px', fontWeight: 600, color: addedStyle.color, margin: 0 }}>
+                    {addedStyle.label}
+                  </p>
                 </div>
-                {/* col 3: chevron — right-aligned under END DATE */}
-                <div style={{ padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                  <ArrowRight size={13} style={{ color: '#C7C7CC' }} />
-                </div>
+                {/* col 3: empty */}
+                <div />
               </div>
+              {/* linked care plan row */}
+              {med.linkedPlan && (
+                <div
+                  style={{
+                    padding: '8px 14px 10px',
+                    borderTop: '1px solid #F2F2F7',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '22px',
+                      height: '22px',
+                      borderRadius: '7px',
+                      background: `${P}10`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <ClipboardList size={11} style={{ color: P }} />
+                  </div>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <p
+                      style={{
+                        fontSize: '8.5px',
+                        fontWeight: 700,
+                        color: '#C7C7CC',
+                        letterSpacing: '0.5px',
+                        textTransform: 'uppercase',
+                        marginBottom: '1px',
+                      }}
+                    >
+                      Care Plan
+                    </p>
+                    <p
+                      style={{
+                        fontSize: '10.5px',
+                        fontWeight: 600,
+                        color: P,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {med.linkedPlan.replace(/ Care Plan$/i, '').replace(/ Plan$/i, '')}
+                    </p>
+                  </div>
+                  <ArrowRight size={13} style={{ color: '#C7C7CC', flexShrink: 0 }} />
+                </div>
+              )}
             </button>
           );
         })}
@@ -2239,9 +2343,9 @@ const DEVICE_LIST = [
   {
     id: 'd2',
     name: 'CGM — Dexcom G7',
-    model: 'Dexcom G7 via Clarity API',
+    model: 'Dexcom G7',
     status: 'connected' as const,
-    connType: 'API',
+    connType: 'Bluetooth',
     conditions: [{ label: 'Diabetes', color: '#FF9500', bg: '#FF950015' }],
     vitals: [{ label: 'Blood Glucose', value: '118 mg/dL' }],
     lastSync: 'Just now',
@@ -2606,19 +2710,21 @@ function DevicesScreen(): React.JSX.Element {
                     }}
                   >
                     <p style={{ fontSize: '13.5px', fontWeight: 700, color: '#1C1C1E' }}>{device.name}</p>
-                    <span
-                      style={{
-                        fontSize: '9.5px',
-                        fontWeight: 700,
-                        color: isConnected ? '#34C759' : '#FF3B30',
-                        background: isConnected ? '#34C75912' : '#FF3B3012',
-                        borderRadius: '999px',
-                        padding: '2px 8px',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {isConnected ? '● Connected' : '○ Offline'}
-                    </span>
+                    {device.id === 'd1' && (
+                      <span
+                        style={{
+                          fontSize: '9.5px',
+                          fontWeight: 700,
+                          color: isConnected ? '#34C759' : '#FF3B30',
+                          background: isConnected ? '#34C75912' : '#FF3B3012',
+                          borderRadius: '999px',
+                          padding: '2px 8px',
+                          flexShrink: 0,
+                        }}
+                      >
+                        {isConnected ? '● Connected' : '○ Offline'}
+                      </span>
+                    )}
                   </div>
                   <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
                     {device.conditions.map((c) => (
@@ -2851,10 +2957,8 @@ function BottomTabBar({ active, onChange }: { active: TabId; onChange: (t: TabId
 
 // ─── screens map ──────────────────────────────────────────────────────────────
 
-const SCREENS: Record<TabId, React.JSX.Element> = {
-  dashboard: <DashboardScreen />,
+const SCREENS: Partial<Record<TabId, React.JSX.Element>> = {
   careplan: <CarePlanScreen />,
-  medication: <MedicationScreen />,
   devices: <DevicesScreen />,
   messages: <MessagesScreen />,
 };
@@ -2866,6 +2970,25 @@ type AppView = 'signin' | 'otp' | 'app';
 export function IPhoneShowcase(): React.JSX.Element {
   const [view, setView] = useState<AppView>('signin');
   const [tab, setTab] = useState<TabId>('dashboard');
+
+  // medication filter state — lifted here so sheet can cover the tab bar
+  const [filterAddedBy, setFilterAddedBy] = useState<string>('All');
+  const [filterCondition, setFilterCondition] = useState<string>('All');
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [draftAddedBy, setDraftAddedBy] = useState<string>('All');
+  const [draftCondition, setDraftCondition] = useState<string>('All');
+
+  const openMedFilter = () => {
+    setDraftAddedBy(filterAddedBy);
+    setDraftCondition(filterCondition);
+    setSheetOpen(true);
+  };
+  const applyMedFilters = () => {
+    setFilterAddedBy(draftAddedBy);
+    setFilterCondition(draftCondition);
+    setSheetOpen(false);
+  };
+  const closeMedSheet = () => setSheetOpen(false);
 
   const subheadings: Record<AppView, string> = {
     signin: 'Sign In · Mobile Number',
@@ -3047,12 +3170,216 @@ export function IPhoneShowcase(): React.JSX.Element {
                           setTab('dashboard');
                         }}
                       />
+                    ) : tab === 'medication' ? (
+                      <MedicationScreen
+                        filterAddedBy={filterAddedBy}
+                        filterCondition={filterCondition}
+                        onOpenFilter={openMedFilter}
+                      />
                     ) : (
                       SCREENS[tab]
                     )}
                   </div>
                 </div>
                 <BottomTabBar active={tab} onChange={setTab} />
+                {/* ── medication filter sheet — covers tab bar ── */}
+                {sheetOpen && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      zIndex: 50,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'flex-end',
+                      borderRadius: '42px',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {/* backdrop */}
+                    <div
+                      onClick={closeMedSheet}
+                      style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)' }}
+                    />
+                    {/* sheet */}
+                    <div style={{ position: 'relative', background: '#fff', borderRadius: '24px 24px 0 0', zIndex: 1 }}>
+                      {/* handle */}
+                      <div
+                        style={{ display: 'flex', justifyContent: 'center', paddingTop: '10px', paddingBottom: '2px' }}
+                      >
+                        <div style={{ width: '36px', height: '4px', borderRadius: '2px', background: '#E5E5EA' }} />
+                      </div>
+                      {/* title row */}
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          justifyContent: 'space-between',
+                          padding: '10px 20px 4px',
+                        }}
+                      >
+                        <div>
+                          <p style={{ fontSize: '17px', fontWeight: 700, color: '#1C1C1E', lineHeight: 1.2 }}>Filter</p>
+                          <p style={{ fontSize: '11.5px', color: '#8E8E93', marginTop: '3px' }}>
+                            Narrow results by source or condition
+                          </p>
+                        </div>
+                        <button
+                          onClick={closeMedSheet}
+                          style={{
+                            width: '28px',
+                            height: '28px',
+                            borderRadius: '50%',
+                            background: '#F2F2F7',
+                            border: 'none',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                            marginTop: '2px',
+                          }}
+                        >
+                          <Plus size={13} style={{ color: '#8E8E93', transform: 'rotate(45deg)' }} strokeWidth={2.5} />
+                        </button>
+                      </div>
+                      {/* Added By */}
+                      <div style={{ padding: '14px 20px 16px' }}>
+                        <p
+                          style={{
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            color: '#8E8E93',
+                            letterSpacing: '0.5px',
+                            textTransform: 'uppercase',
+                            marginBottom: '10px',
+                          }}
+                        >
+                          Added By
+                        </p>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                          {(['All', 'Doctor', 'EHR', 'Myself'] as const).map((opt) => {
+                            const active = draftAddedBy === opt;
+                            return (
+                              <button
+                                key={opt}
+                                onClick={() => setDraftAddedBy(opt)}
+                                style={{
+                                  fontSize: '12px',
+                                  fontWeight: active ? 700 : 500,
+                                  color: active ? '#fff' : '#3C3C3E',
+                                  background: active ? P : '#F2F2F7',
+                                  borderRadius: '999px',
+                                  padding: '7px 16px',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                {opt}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      {/* divider */}
+                      <div style={{ height: '1px', background: '#F2F2F7', margin: '0 20px 16px' }} />
+                      {/* Condition */}
+                      <div style={{ padding: '0 20px 20px' }}>
+                        <p
+                          style={{
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            color: '#8E8E93',
+                            letterSpacing: '0.5px',
+                            textTransform: 'uppercase',
+                            marginBottom: '10px',
+                          }}
+                        >
+                          Condition
+                        </p>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                          {(['All', 'Hypertension', 'Diabetes', 'Obesity'] as const).map((opt) => {
+                            const active = draftCondition === opt;
+                            return (
+                              <button
+                                key={opt}
+                                onClick={() => setDraftCondition(opt)}
+                                style={{
+                                  fontSize: '12px',
+                                  fontWeight: active ? 700 : 500,
+                                  color: active ? '#fff' : '#3C3C3E',
+                                  background: active ? P : '#F2F2F7',
+                                  borderRadius: '999px',
+                                  padding: '7px 16px',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                {opt}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      {/* reset + action buttons */}
+                      <div style={{ padding: '0 20px 28px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        <div style={{ display: 'flex', gap: '10px' }}>
+                          <button
+                            onClick={closeMedSheet}
+                            style={{
+                              flex: 1,
+                              padding: '13px',
+                              borderRadius: '14px',
+                              border: '1.5px solid #E5E5EA',
+                              background: '#fff',
+                              fontSize: '13px',
+                              fontWeight: 600,
+                              color: '#3C3C3E',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={applyMedFilters}
+                            style={{
+                              flex: 1,
+                              padding: '13px',
+                              borderRadius: '14px',
+                              border: 'none',
+                              background: P,
+                              fontSize: '13px',
+                              fontWeight: 700,
+                              color: '#fff',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Apply
+                          </button>
+                        </div>
+                        {(draftAddedBy !== 'All' || draftCondition !== 'All') && (
+                          <button
+                            onClick={() => {
+                              setDraftAddedBy('All');
+                              setDraftCondition('All');
+                            }}
+                            style={{
+                              padding: '10px',
+                              background: 'none',
+                              border: 'none',
+                              fontSize: '12px',
+                              fontWeight: 600,
+                              color: '#FF3B30',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Reset Filters
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </div>
