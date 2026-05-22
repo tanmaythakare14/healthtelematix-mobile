@@ -1178,231 +1178,223 @@ function CarePlanDetailScreen({ planId, onBack }: { planId: string; onBack: () =
           </div>
         </div>
 
-        {/* ── Goals ── */}
+        {/* ── Goals (with nested Activity + Medication) ── */}
         <div>
           <SectionLabel>Goals</SectionLabel>
-          <div className="space-y-2">
-            {detail.goals.map((g, i) => (
-              <div
-                key={i}
-                className="rounded-2xl bg-white px-4 py-3"
-                style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <p style={{ fontSize: '12.5px', fontWeight: 700, color: '#1C1C1E', flex: 1, marginRight: '8px' }}>
-                    {g.name}
-                  </p>
-                  <span
-                    style={{
-                      fontSize: '10px',
-                      fontWeight: 600,
-                      color: g.condColor,
-                      background: `${g.condColor}15`,
-                      borderRadius: '999px',
-                      padding: '2px 7px',
-                      flexShrink: 0,
-                    }}
-                  >
-                    {g.condition}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 mb-2.5">
-                  <span style={{ fontSize: '10.5px', color: '#8E8E93' }}>Current:</span>
-                  <span style={{ fontSize: '10.5px', fontWeight: 600, color: '#1C1C1E' }}>{g.current}</span>
-                  <span style={{ fontSize: '10px', color: '#C7C7CC', margin: '0 2px' }}>·</span>
-                  <span style={{ fontSize: '10.5px', color: '#8E8E93' }}>Target:</span>
-                  <span style={{ fontSize: '10.5px', fontWeight: 600, color: '#34C759' }}>{g.target}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div
-                    style={{ flex: 1, height: '5px', background: '#F2F2F7', borderRadius: '999px', overflow: 'hidden' }}
-                  >
-                    <div
-                      style={{
-                        width: `${g.progress}%`,
-                        height: '100%',
-                        background: progColor(g.progress),
-                        borderRadius: '999px',
-                      }}
-                    />
-                  </div>
-                  <span
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 700,
-                      color: progColor(g.progress),
-                      minWidth: '30px',
-                      textAlign: 'right',
-                    }}
-                  >
-                    {g.progress}%
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Activities ── */}
-        <div>
-          <SectionLabel>Activities</SectionLabel>
-          <div className="space-y-2">
-            {detail.activities.map((a, i) => (
-              <div
-                key={i}
-                className="rounded-2xl bg-white px-4 py-3"
-                style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}
-              >
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2 flex-1 min-w-0">
-                    <div
-                      style={{
-                        width: '28px',
-                        height: '28px',
-                        borderRadius: '8px',
-                        background: a.catBg,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                      }}
-                    >
-                      <Activity size={13} style={{ color: a.catColor }} />
-                    </div>
-                    <p style={{ fontSize: '12.5px', fontWeight: 700, color: '#1C1C1E', lineHeight: 1.3 }}>{a.name}</p>
-                  </div>
-                  <span
-                    style={{
-                      fontSize: '9.5px',
-                      fontWeight: 700,
-                      color: a.catColor,
-                      background: a.catBg,
-                      borderRadius: '999px',
-                      padding: '2px 7px',
-                      flexShrink: 0,
-                    }}
-                  >
-                    {a.category}
-                  </span>
-                </div>
+          <div className="space-y-3">
+            {detail.goals.map((g, i) => {
+              const activity = detail.activities[i];
+              const medication = detail.medications[i];
+              return (
                 <div
+                  key={i}
                   style={{
-                    borderTop: '1px solid #F2F2F7',
-                    paddingTop: '8px',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
+                    borderRadius: '16px',
+                    background: '#fff',
+                    boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
+                    overflow: 'hidden',
                   }}
                 >
-                  <div>
-                    <p
-                      style={{
-                        fontSize: '9px',
-                        fontWeight: 700,
-                        color: '#C7C7CC',
-                        letterSpacing: '0.5px',
-                        textTransform: 'uppercase',
-                        marginBottom: '2px',
-                      }}
-                    >
-                      Frequency
-                    </p>
-                    <p style={{ fontSize: '12px', fontWeight: 600, color: '#1C1C1E' }}>{a.frequency}</p>
-                  </div>
-                  <span
-                    style={{
-                      fontSize: '9.5px',
-                      fontWeight: 600,
-                      color: a.status === 'Active' ? '#34C759' : '#8E8E93',
-                      background: a.status === 'Active' ? '#34C75912' : '#F2F2F7',
-                      borderRadius: '999px',
-                      padding: '3px 8px',
-                    }}
-                  >
-                    {a.status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Medications ── */}
-        <div>
-          <SectionLabel>Medications</SectionLabel>
-          <div className="space-y-2">
-            {detail.medications.map((m, i) => (
-              <div
-                key={i}
-                className="rounded-2xl bg-white overflow-hidden"
-                style={{ boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}
-              >
-                <div
-                  className="px-4 pt-3 pb-2.5 flex items-center justify-between"
-                  style={{ borderBottom: '1px solid #F2F2F7' }}
-                >
-                  <div className="flex items-center gap-2">
+                  {/* ── goal header ── */}
+                  <div style={{ padding: '12px 14px 12px' }}>
                     <div
                       style={{
-                        width: '30px',
-                        height: '30px',
-                        borderRadius: '9px',
-                        background: '#AF52DE12',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
+                        justifyContent: 'space-between',
+                        marginBottom: '8px',
                       }}
                     >
-                      <PillIcon size={14} style={{ color: '#AF52DE' }} />
-                    </div>
-                    <div>
-                      <p style={{ fontSize: '13px', fontWeight: 700, color: '#1C1C1E' }}>{m.drug}</p>
-                      <p style={{ fontSize: '10px', color: '#8E8E93' }}>
-                        {m.dosage} · {m.pills} per dose
+                      <p
+                        style={{
+                          fontSize: '12.5px',
+                          fontWeight: 700,
+                          color: '#1C1C1E',
+                          flex: 1,
+                          marginRight: '8px',
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {g.name}
                       </p>
+                      <span
+                        style={{
+                          fontSize: '10px',
+                          fontWeight: 600,
+                          color: g.condColor,
+                          background: `${g.condColor}15`,
+                          borderRadius: '999px',
+                          padding: '2px 7px',
+                          flexShrink: 0,
+                        }}
+                      >
+                        {g.condition}
+                      </span>
                     </div>
-                  </div>
-                  <span
-                    style={{
-                      fontSize: '9.5px',
-                      fontWeight: 600,
-                      color: m.status === 'Active' ? '#34C759' : '#8E8E93',
-                      background: m.status === 'Active' ? '#34C75912' : '#F2F2F7',
-                      borderRadius: '999px',
-                      padding: '3px 8px',
-                    }}
-                  >
-                    {m.status}
-                  </span>
-                </div>
-                <div className="px-4 pb-1">
-                  <FieldRow label="Frequency" value={m.frequency} />
-                  <FieldRow label="Meal Time" value={m.mealTime} />
-                  <FieldRow label="Start Date" value={m.startDate} />
-                  <FieldRow label="End Date" value={m.endDate} />
-                  <FieldRow label="Prescribed By" value={m.prescribedBy} />
-                  <div
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0' }}
-                  >
-                    <span style={{ fontSize: '12px', color: '#8E8E93' }}>Linked Plan</span>
-                    <span
+                    <div
                       style={{
-                        fontSize: '10.5px',
-                        fontWeight: 600,
-                        color: P,
-                        background: `${P}10`,
-                        borderRadius: '999px',
-                        padding: '2px 8px',
-                        maxWidth: '55%',
-                        textAlign: 'right',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        marginBottom: '10px',
+                        flexWrap: 'wrap',
                       }}
                     >
-                      {m.linkedPlan}
-                    </span>
+                      <span style={{ fontSize: '10.5px', color: '#8E8E93' }}>Current:</span>
+                      <span style={{ fontSize: '10.5px', fontWeight: 600, color: '#1C1C1E' }}>{g.current}</span>
+                      <span style={{ fontSize: '10px', color: '#C7C7CC' }}>·</span>
+                      <span style={{ fontSize: '10.5px', color: '#8E8E93' }}>Target:</span>
+                      <span style={{ fontSize: '10.5px', fontWeight: 600, color: '#34C759' }}>{g.target}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div
+                        style={{
+                          flex: 1,
+                          height: '6px',
+                          background: '#F2F2F7',
+                          borderRadius: '999px',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: `${g.progress}%`,
+                            height: '100%',
+                            background: progColor(g.progress),
+                            borderRadius: '999px',
+                          }}
+                        />
+                      </div>
+                      <span
+                        style={{
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          color: progColor(g.progress),
+                          minWidth: '28px',
+                          textAlign: 'right',
+                        }}
+                      >
+                        {g.progress}%
+                      </span>
+                    </div>
                   </div>
+
+                  {/* ── related activity ── */}
+                  {activity && (
+                    <div style={{ background: '#F4F8FF', borderTop: '1px solid #EEF2F8', padding: '10px 14px' }}>
+                      <p
+                        style={{
+                          fontSize: '8.5px',
+                          fontWeight: 700,
+                          color: '#8E8E93',
+                          letterSpacing: '0.6px',
+                          textTransform: 'uppercase',
+                          marginBottom: '7px',
+                        }}
+                      >
+                        Activity
+                      </p>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '9px', flex: 1, minWidth: 0 }}>
+                          <div
+                            style={{
+                              width: '28px',
+                              height: '28px',
+                              borderRadius: '9px',
+                              background: activity.catBg,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0,
+                            }}
+                          >
+                            <Activity size={13} style={{ color: activity.catColor }} />
+                          </div>
+                          <div style={{ minWidth: 0 }}>
+                            <p style={{ fontSize: '11.5px', fontWeight: 600, color: '#1C1C1E', lineHeight: 1.3 }}>
+                              {activity.name}
+                            </p>
+                            <p style={{ fontSize: '10px', color: '#8E8E93', marginTop: '1px' }}>{activity.frequency}</p>
+                          </div>
+                        </div>
+                        <span
+                          style={{
+                            fontSize: '9px',
+                            fontWeight: 700,
+                            color: activity.catColor,
+                            background: activity.catBg,
+                            borderRadius: '999px',
+                            padding: '2px 7px',
+                            flexShrink: 0,
+                            marginLeft: '8px',
+                          }}
+                        >
+                          {activity.category}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ── related medication ── */}
+                  {medication && (
+                    <div style={{ background: '#FBF7FF', borderTop: '1px solid #F2EEF8', padding: '10px 14px' }}>
+                      <p
+                        style={{
+                          fontSize: '8.5px',
+                          fontWeight: 700,
+                          color: '#8E8E93',
+                          letterSpacing: '0.6px',
+                          textTransform: 'uppercase',
+                          marginBottom: '7px',
+                        }}
+                      >
+                        Medication
+                      </p>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '9px', flex: 1, minWidth: 0 }}>
+                          <div
+                            style={{
+                              width: '28px',
+                              height: '28px',
+                              borderRadius: '9px',
+                              background: '#AF52DE12',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0,
+                            }}
+                          >
+                            <PillIcon size={13} style={{ color: '#AF52DE' }} />
+                          </div>
+                          <div style={{ minWidth: 0 }}>
+                            <p style={{ fontSize: '11.5px', fontWeight: 600, color: '#1C1C1E', lineHeight: 1.3 }}>
+                              {medication.drug} · {medication.dosage}
+                            </p>
+                            <p style={{ fontSize: '10px', color: '#8E8E93', marginTop: '1px' }}>
+                              {medication.frequency} · {medication.mealTime}
+                            </p>
+                          </div>
+                        </div>
+                        <span
+                          style={{
+                            fontSize: '9px',
+                            fontWeight: 700,
+                            color: medication.status === 'Active' ? '#34C759' : '#8E8E93',
+                            background: medication.status === 'Active' ? '#34C75912' : '#F2F2F7',
+                            borderRadius: '999px',
+                            padding: '2px 7px',
+                            flexShrink: 0,
+                            marginLeft: '8px',
+                          }}
+                        >
+                          {medication.status}
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
