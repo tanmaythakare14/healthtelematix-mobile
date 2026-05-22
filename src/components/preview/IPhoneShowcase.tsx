@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  MessageSquare,
   ChevronLeft,
   Heart,
   Activity,
@@ -1625,10 +1624,6 @@ function CarePlanScreen(): React.JSX.Element {
 
 // ─── messages screen ──────────────────────────────────────────────────────────
 
-function MessagesScreen(): React.JSX.Element {
-  return <ComingSoonScreen title="Messages" />;
-}
-
 // ─── medication screen ────────────────────────────────────────────────────────
 
 const MED_DATA = [
@@ -2893,7 +2888,6 @@ const TABS = [
   { id: 'careplan', label: 'Care Plan', Icon: ClipboardList },
   { id: 'medication', label: 'Medication', Icon: PillIcon },
   { id: 'devices', label: 'Devices', Icon: Bluetooth },
-  { id: 'messages', label: 'Message', Icon: MessageSquare },
 ] as const;
 
 type TabId = (typeof TABS)[number]['id'];
@@ -2914,33 +2908,15 @@ function BottomTabBar({ active, onChange }: { active: TabId; onChange: (t: TabId
     >
       {TABS.map(({ id, label, Icon }) => {
         const on = active === id;
-        const badge = id === 'messages' ? 3 : 0;
         return (
-          <button key={id} onClick={() => onChange(id)} className="flex-1 flex flex-col items-center gap-0.5 relative">
-            {badge > 0 && (
-              <div
-                className="absolute flex items-center justify-center"
-                style={{
-                  width: '16px',
-                  height: '16px',
-                  borderRadius: '50%',
-                  background: '#FF3B30',
-                  top: '-2px',
-                  left: 'calc(50% + 5px)',
-                }}
-              >
-                <span className="text-white font-bold" style={{ fontSize: '8px' }}>
-                  {badge}
-                </span>
-              </div>
-            )}
+          <button key={id} onClick={() => onChange(id)} className="flex-1 flex flex-col items-center gap-0.5">
             <Icon
-              size={24}
+              size={22}
               style={{ color: on ? P : '#8E8E93', strokeWidth: on ? 2.5 : 1.75, transition: 'color 0.15s' }}
             />
             <span
               style={{
-                fontSize: '9px',
+                fontSize: '11px',
                 fontWeight: on ? 600 : 400,
                 color: on ? P : '#8E8E93',
                 transition: 'color 0.15s',
@@ -2960,7 +2936,6 @@ function BottomTabBar({ active, onChange }: { active: TabId; onChange: (t: TabId
 const SCREENS: Partial<Record<TabId, React.JSX.Element>> = {
   careplan: <CarePlanScreen />,
   devices: <DevicesScreen />,
-  messages: <MessagesScreen />,
 };
 
 // ─── main export ──────────────────────────────────────────────────────────────
@@ -3146,7 +3121,7 @@ export function IPhoneShowcase(): React.JSX.Element {
                 {view === 'otp' && (
                   <OtpScreen
                     onVerify={() => {
-                      setTab('dashboard');
+                      setTab('careplan');
                       setView('app');
                     }}
                     onBack={() => setView('signin')}
