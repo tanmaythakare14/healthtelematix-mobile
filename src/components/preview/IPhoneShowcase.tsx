@@ -261,28 +261,6 @@ function SignInScreen({ onContinue }: { onContinue: () => void }): React.JSX.Ele
           <div style={{ flex: 1, height: '1px', background: '#EBEBEB' }} />
         </div>
 
-        {/* alternative options */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
-          {/* Face ID */}
-          <button
-            style={{
-              width: '100%',
-              height: '46px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-              borderRadius: '13px',
-              background: '#F7F8FA',
-              border: '1.5px solid #EBEBEB',
-              cursor: 'pointer',
-            }}
-          >
-            <span style={{ fontSize: '18px', lineHeight: 1 }}>🆔</span>
-            <span style={{ fontSize: '13.5px', fontWeight: 600, color: '#1C1C1E' }}>Sign in with Face ID</span>
-          </button>
-        </div>
-
         {/* footer */}
         <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
           <Shield size={9} color="#C7C7CC" />
@@ -1540,8 +1518,15 @@ function CarePlanScreen(): React.JSX.Element {
           <button
             key={plan.id}
             onClick={() => setSelectedId(plan.id)}
-            className="text-left rounded-2xl bg-white overflow-hidden w-full"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)', cursor: 'pointer' }}
+            className="text-left w-full"
+            style={{
+              display: 'block',
+              background: '#fff',
+              borderRadius: '16px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+              border: 'none',
+              cursor: 'pointer',
+            }}
           >
             <div className="flex items-start gap-3 px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #F2F2F7' }}>
               <div
@@ -1611,7 +1596,7 @@ function CarePlanScreen(): React.JSX.Element {
                   {plan.progress}%
                 </span>
               </div>
-              <div style={{ height: '6px', background: '#F2F2F7', borderRadius: '999px', overflow: 'hidden' }}>
+              <div style={{ height: '8px', background: '#F2F2F7', borderRadius: '999px', overflow: 'hidden' }}>
                 <div
                   style={{
                     width: `${plan.progress}%`,
