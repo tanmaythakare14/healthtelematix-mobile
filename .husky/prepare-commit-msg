@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+# Only launch Commitizen when the user runs bare `git commit` (no -m flag).
+# $2 is the commit source: "message" means -m was used, "template", "merge", "squash", etc.
+# If $2 is set (any source other than interactive), skip Commitizen.
+if [ -n "$2" ]; then
+  exit 0
+fi
+
+npx cz --hook || true

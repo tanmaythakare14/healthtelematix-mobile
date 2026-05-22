@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+# Exit early if there are no staged changes
+if [ -z "$(git diff --cached --name-only)" ]; then
+  exit 0
+fi
+
+# Run lint-staged (ESLint --fix + Prettier --write on staged files)
+npx lint-staged
+
+# If lint-staged produced new changes (e.g. from auto-formatting), stage them
+if ! git diff --quiet; then
+  git add -u
+fi
+
+# Run project-wide typecheck once if any staged TypeScript files exist
+if git diff --cached --name-only | grep -qE '\.(ts|tsx)$'; then
+  npm run typecheck
+fi

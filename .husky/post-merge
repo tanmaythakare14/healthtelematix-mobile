@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+# Re-install dependencies if package.json or package-lock.json changed in the merge
+if git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD | grep -qE '^package(-lock)?\.json$'; then
+  echo "package.json or package-lock.json changed — running npm ci"
+  npm ci
+fi

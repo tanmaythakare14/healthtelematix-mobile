@@ -1,0 +1,1 @@
+export { EditPatientPage } from './EditPatientPage';
