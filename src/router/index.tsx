@@ -34,6 +34,7 @@ import { UserList, UserDetail, USER_BASE_PATH, USER_DETAIL_PATH } from '@/module
 import { Settings, SETTINGS_PATH } from '@/modules/settings';
 import { Dashboard, DASHBOARD_PATH } from '@/modules/dashboard';
 import { BillingPage, BillingDetailPage, BILLING_BASE_PATH, BILLING_DETAIL_PATH } from '@/modules/billing';
+import { CarePlanList, CARE_PLAN_BASE_PATH } from '@/modules/care-plan';
 import { ROUTER_BASENAME } from '@/config/environment';
 import { IPhoneShowcase } from '@/components/preview/IPhoneShowcase';
 
@@ -62,6 +63,7 @@ export const router = createBrowserRouter(
         { path: USER_DETAIL_PATH, element: <UserDetail /> },
         { path: BILLING_BASE_PATH, element: <BillingPage /> },
         { path: BILLING_DETAIL_PATH, element: <BillingDetailPage /> },
+        { path: CARE_PLAN_BASE_PATH, element: <CarePlanList /> },
         { path: SETTINGS_PATH, element: <Settings /> },
       ],
     },
