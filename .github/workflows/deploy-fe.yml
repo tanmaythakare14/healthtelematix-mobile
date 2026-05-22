@@ -46,7 +46,7 @@ jobs:
 
       - name: Sync index.html with no-cache headers
         run: |
-          aws s3 sync dist s3://${S3_BUCKET}/health-telematix/moblie/ \
+          aws s3 sync dist s3://${S3_BUCKET}/health-telematix/mobile/ \
             --exclude "*" \
             --include "index.html" \
             --cache-control "no-cache, no-store, must-revalidate" \
