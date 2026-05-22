@@ -1301,7 +1301,7 @@ function CarePlanDetailScreen({ planId, onBack }: { planId: string; onBack: () =
 
                   {/* ── related activity ── */}
                   {activity && (
-                    <div style={{ background: '#F4F8FF', borderTop: '1px solid #EEF2F8', padding: '10px 14px' }}>
+                    <div style={{ background: '#FAFAFA', borderTop: '1px solid #F0F0F0', padding: '10px 14px' }}>
                       <p
                         style={{
                           fontSize: '8.5px',
@@ -1357,7 +1357,7 @@ function CarePlanDetailScreen({ planId, onBack }: { planId: string; onBack: () =
 
                   {/* ── related medication ── */}
                   {medication && (
-                    <div style={{ background: '#FBF7FF', borderTop: '1px solid #F2EEF8', padding: '10px 14px' }}>
+                    <div style={{ background: '#FAFAFA', borderTop: '1px solid #F0F0F0', padding: '10px 14px' }}>
                       <p
                         style={{
                           fontSize: '8.5px',
