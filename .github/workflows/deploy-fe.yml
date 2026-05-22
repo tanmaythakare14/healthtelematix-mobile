@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build frontend
-        run: npm run build -- --base=/health-telematix/mobile/
+        run: npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
